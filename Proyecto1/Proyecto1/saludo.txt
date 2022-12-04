@@ -1,0 +1,154 @@
+Hola Mundo
+
+--- LEER ARCHIOS--------------------------------
+    with open("saludo.txt")as file_object:
+                leer = file_object.readlines()
+                print(leer)
+
+---- BUSQUEDA DENTRO EL ARCHIVO----------------------
+    def busquedatexto():
+    print("Busqueda en un archivo de texto")
+    nombreArchivo = input("Escriba el nombre del archivo")
+    coincidencias = 0
+     try:
+        with open(nombreArchivo,"r")as archivo:
+             busqueda = input("Texto a buscar:")
+             print("\nResultado:")
+               for i,linea in enumerate(archivo):
+                   print(f"Linea{i+1}:{linea}", end="")
+                   coincidencias +=1
+                 if coincidencias == 0
+                    print("No hubo coincidencias.")
+                 else 
+                    print(f"Coincidencias encontradas:{coincidencias}.")
+        pass
+     except OSError  as e:
+        print(f"Error al acceder el archivo:{e}")
+     except Exception  as e:
+        print(f"Ocurrio un error:{e}")
+
+
+---- BUSQUEDA DENTRO EL ARCHIVO REMPLAZARLO----------------------
+import os
+def reemplazartexto():
+    print("Reemplazo en un archivo de texto")
+    nombreArchivo = input("Escriba el nombre del archivo")
+    reemplazo = 0
+    try:
+       with open(nombreArchivo, r "r")as archivoEntrada, /
+            open("__"+ nombre,"w")as archivoSalida:
+            busqueda = input("Texto de reemplazo:")
+            for linea in archivoEntrada:
+                if busqueda in linea:
+                   linea = linea.replace(busqueda, reemplazo)
+                   reemplazos += 1
+                  archivosSalida.write(linea)
+            os.remove(nombreArchivo)
+            os.rename("__"+ nombreArchivo, nombreArchivo)
+            print(f"Se realizaron {reemplazos} reemplazos")
+    except OSError as e:
+          print(f"Error al acceder un archivo:{e}")
+    except Exception as e:
+          print(f"Ocurrio un error:{e}")
+
+---- ESTADISTICAS DE ARCHIVO----------------------
+import os
+def estadisticaArchivo():
+     print("Estadisticas de un archivo de texto.")
+     nombreArchivo = input("Escriba el nombre del archivo:")
+     lineas =0
+     caracteres =0
+     palabrasDic={}
+    try:
+       with open:(nombreArchivo,"r")as archivo:
+           rutacompleta = os.path.abspath(nombreArchivo)
+           for linea in archivo:
+            linea +=1
+            nuevaLinea = ""
+              for caracteres in linea:
+                  caracteres += 1
+                  if not caracter.isalpha()
+                     nuevaLinea += caracter
+                  else:
+                     nuevaLinea +=" "
+                  listaPalabras = nuevaLinea.split()
+                  for palabra in listaPalabras:
+                      palabras = palabras.lowe()
+                      if palabras in palabrasDic:
+                         palabrasDic[palabra]+= 1
+                      else:
+                         palabraDic[palabra]=1
+              top10=[(v,k)for k,v in palabrasDic.items()]
+              top10.sort(reverse=True)
+              top10 = top10[:10]
+              print(f"Ruta completa:{rutaCompleta}")
+              print(f"Cantidad de Lineas:{lineas}")
+              print(f"Cantidad de Caracteres:{caracteres}")
+              print(f"Top 10 de palabras mas utilizadas:")
+              for i,(cantidad,palabra)in enumerate(top10):
+                  print(f"{i+1"},{palabra} ({cantidad}))
+     
+    except OSError as e:
+          print(f"Error al acceder un archivo:{e}")
+    except Exception as e:
+          print(f"Ocurrio un error:{e}")
+
+-------------------------Boton Dinamicos----------------------------
+class Ventana(Button)
+     def _init_(selft,master,*args):
+         super().__init__(master,*args)  
+         selft.click = True
+         selft.cont = 0
+
+         selft.widgets()
+
+     def widgets(self):
+         self.inicio = PhotoImage(file = 'code.gif')
+         self.bt_inicio = Button(self.master, imagen= self.inicio,bg='black',activebackground='black',bd=0,command = self.animacion)
+         self.bt_inicio.pack()
+
+     def animacion(seft):
+        gift = Image.open('codego.gif')
+        frames = gif.n_frames
+          if self.click == True
+            for i in  range(1, frames):
+                self.inicio= PhotoImage(file='code.gif',format='gif -index %i %(i)')
+                seft.bt_inicio['imagen'] = seft.inicio
+                seft.master.update()
+                seft.click = False
+                 if i+ 1== frames:
+                        self.cont+=1
+                        seft.click=True
+                        self.texto['text']=f'Boton{self.cont}'
+
+if __name__ == "__main__":
+        Ventana = TK()
+        Ventana.title('Button GIF')
+        Ventana.config(bg='black')
+        Ventana.geometry('400x200+180+80')
+        app = Ventana(Ventana)
+        app.mainloop()
+------------------------- Boton saludo y salida---------------
+import tkinter
+
+def saludo():
+     tkinter.Label(ventana,text="Hola Mundo").pack
+
+def salir():
+     ventana.destroy()
+
+boton = tkinter.button(ventana,text="invoca un Saludo", command = saludo, fg="red")
+boton.pack()
+boton.place(x=100,y=200,height = 75, width =150)
+
+boton2 =tkinter.button(ventana,text="Salir", command = salir, fg="green")
+boton2.pack()
+boton.place(x=180,y=400,height = 75, width =150)
+
+--------------- boton guarda-------------------------
+
+
+CodigoT = open('Codigo.txt','w')
+CodigoT = open('Codigo.txt','w')
+CodigoT = open('Codigo.txt','w')
+CodigoT = open('Codigo.txt','w')
