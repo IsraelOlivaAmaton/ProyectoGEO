@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+DEFAULT_CHARSET = "UTF-8"
 # Application definition
 
 INSTALLED_APPS = [

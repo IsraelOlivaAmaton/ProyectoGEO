@@ -1,20 +1,17 @@
+import json
 from urllib import request
 from django.http import HttpResponse
 from tkinter import Tk, Button,Label,PhotoImage
 from PIL import Image
 import datetime
+from django.shortcuts import render
 from django.template import Template, Context
 import os
+import cgi
 
 
-
-def saludo(request): #primera vista
-     doc_externo=open(os.path.dirname(os.path.realpath(__file__))+ "/Plantillas/base.html")
-     plt=Template(doc_externo.read())
-     doc_externo.close()
-     ctx=Context()
-     documento=plt.render(ctx)
-     return HttpResponse(documento)
+def saludo(request): #primera vista; Index
+     return render(request, (os.path.dirname(os.path.realpath(__file__))+ "/Plantillas/index.html"))
     
 def archivo(requtes):
      return render(requtes,"Archivo.html")
@@ -25,75 +22,17 @@ def despida(requtes):
 
 #---------------------------------------- botones ----------
 
-def saludo1():
-     Tk.Label(root,text="Hola Mundo").pack
-
-def salir():
-     Tk.destroy()
-
-
-#root=Tk()
-#root.minsize(height=100, width=100)
-
-def tab4():
-     label5=Label(root,text='esto es Second',font=('Times_new_Roman',25))
-     
-     def tab5():
-          label4.destroy()
-          button4.destroy()
-          label5.pack()
-
-     def back():
-          label5.destroy()
-          button5.destroy()
-          tab4()
-          button5=Button(root,text='Back',font=('Times_new_Roman',25),command=back)
-          button5.pack(side="bottom")
-
-     label4=Label(root,text='esto es primera',font=('Times_new_Roman',25))
-     label4.pack()
-     button4=Button(root,text='Next',font=('Times_new_Roman',25),command=tab5)
-     button4.pack(side="bottom")
-
-#tab4()
-
-#root.mainloop()
-
-
-
-def guarda():
-
-     archivo = open("prueba.txt","a")
+def guardarTXT(request):
+     data = request.POST.get('contenido')
+     archivo = open("prueba.txt","w+")
      archivo.write("Hola Mundo\n")
      archivo.write("La vida triste\n")
-     nombre = input("Introduce tu nombre ")
-     archivo.write(nombre+ '\n')
-     numero = int(input("Introduce tu numero "))
-     archivo.write('numero=% s'%numero+'\n')
-     n=int(input("¿Cuantos deportes?"))
-     deportes=[]
-
-     for i in range(n):
-          deporte=input("Deporte: ")
-          deportes.append(deporte)
-     archivo.write('deportes=%s'%deportes)
+     archivo.write(data)
      archivo.close()
-def index(request):
-     if request.method == 'POST' and 'guardar' in request.POST:
-          guarda()
+     
+     return HttpResponse(data)
+
           
-#boton = Tk.button(root,text="invoca un Saludo", command = saludo, fg="red")
-#boton.pack()
-#boton.place(x=100,y=200,height = 75, width =150)
-#
-#boton2 =Tk.button(root,text="Salir", command = salir, fg="green")
-#boton2.pack()
-#boton.place(x=180,y=400,height = 75, width =150)
-#
-#
-#boton3= Tk.button(root,text="guarda", command = guarda, fg="green")
-#boton3.pack()
-#boton.place(x=180,y=400,height = 75, width =150)
 
 
         
