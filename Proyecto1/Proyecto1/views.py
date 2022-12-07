@@ -22,6 +22,13 @@ def despida(requtes):
 
 #---------------------------------------- botones ----------
 
+
+          
+
+
+        
+#----------- Archivos -----------------
+
 def guardarTXT(request):
      data = request.POST.get('contenido')
      archivo = open("prueba.txt","w+")
@@ -32,37 +39,20 @@ def guardarTXT(request):
      
      return HttpResponse(data)
 
-          
 
-
-        
-#----------- Archivos -----------------
-
-def Archiotxt(requtes):
-          with open("saludo.txt")as file_object:
-                leer = file_object.readlines()
-                print(leer)
-
-
-
-def busquedatexto():
-     print("Busqueda en un archivo de texto")
-     nombreArchivo = input("Escriba el nombre del archivo")
-     coincidencias = 0
+def busquedatexto(request):
      try:
-          with open(nombreArchivo,"r")as archivo:
-               busqueda = input("Texto a buscar:")
-               print("\nResultado:")
-
+          coincidencias = 0
+          data = request.POST.get('busqueda')
+          with open("prueba.txt","r+")as archivo:
                for i,linea in enumerate(archivo):
                     print(f"Linea{i+1}:{linea}", end="")
-                    coincidencias +=1
-
-                    if coincidencias == 0:
-                         print("No hubo coincidencias.")
-                    else: 
-                         print(f"Coincidencias encontradas:{coincidencias}.")
-               pass
+                    if data in linea:
+                         coincidencias +=1
+               if coincidencias == 0:
+                    return HttpResponse("No hubo coincidencias.")
+               else: 
+                    return HttpResponse(f"Coincidencias encontradas: {coincidencias}")
 
      except OSError  as e:
 

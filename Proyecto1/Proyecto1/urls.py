@@ -23,7 +23,7 @@ urlpatterns = [
     re_path(r'^$', pv.saludo, name='index'),
     path('nosveremos/',pv.despida),
     path('archivo/',pv.archivo),
-    path('busquedatexto/',pv.busquedatexto),
+    path('busquedatexto',pv.busquedatexto),
     path('guardarTXT',pv.guardarTXT),
     
 ]
