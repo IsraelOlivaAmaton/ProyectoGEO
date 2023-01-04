@@ -30,7 +30,9 @@ def despida(requtes):
 #----------- Archivos -----------------
 
 def guardarTXT(request):
-     data = request.POST.get('contenido')
+     print(request)
+     data = request.POST
+     print(data)
      archivo = open("prueba.txt","w+")
      archivo.write("Hola Mundo\n")
      archivo.write("La vida triste\n")
