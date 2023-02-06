@@ -5,7 +5,7 @@ import Swal from 'sweetalert2'
 import Papa from "papaparse";
 import axios from 'axios';
 import { json, useLocation } from 'react-router-dom';
-function App() {
+function CargarSesion() {
   const [file, setFile] = useState("");
   const [edicion,setEdicion] =useState(false);
   const [data, setData] = useState();
@@ -13,7 +13,7 @@ function App() {
   const allowedExtensions = ["csv"];
   const [valor, setValor] = useState([]);
   const [index, setIndex] = useState(0);
-  const { state } = useLocation();
+  const [state, setState] = useState();
 
   //funcion para abrir archivo CSV
   const handleFileChange = (e) => {
@@ -27,29 +27,66 @@ function App() {
             icon: 'error',
             confirmButtonText: 'Cool'
           })
-        }else
-          setFile(inputFile);
+        }else{
+            setFile(inputFile);
+            axios.post('http://127.0.0.1:8000/recuperarSesion',{'filename':inputFile.name},{
+                headers: {
+                  'Accept':'application/json',
+                  'Content-Type':'application/json',
+                },
+                xsrfCookieName: 'csrftoken',
+                xsrfHeaderName: 'X-CSRFTOKEN',
+              }).then(function (response) {
+                console.log(response)
+                if(response.data == 0){
+                    console.log("No")
+                    Swal.fire({
+                        title: 'No encontrado!',
+                        text: 'No está registrado este documento como archivo ya procesado',
+                        icon: 'question',
+                        confirmButtonText: 'Entendido'
+                      })
+                }else{
+                    var arrayButtons = new Array();
+                    setIndex(response.data['lastIndex']);
+                    response.data.fields.map((e,idx)=>{
+                        for(var key in e)
+                            arrayButtons.push(e[key])
+                    })
+                    console.log(arrayButtons);
+                    setState(arrayButtons);
+                    axios.post('http://127.0.0.1:8000/cargarAntiguo',{'filename':inputFile.name},{
+                        headers: {
+                            'Accept':'application/json',
+                            'Content-Type':'application/json',
+                          },
+                          xsrfCookieName: 'csrftoken',
+                          xsrfHeaderName: 'X-CSRFTOKEN',
+                    }).then(function(response2){
+                        var textArray = new Array();
+                        var valueArray = [];
+
+                        response2.data.forEach(element => {
+                            textArray.push({'text':element['text']})
+                            valueArray.push(element['valor'])
+                        });
+                        setData(textArray)
+                        setValor(valueArray)
+                    })
+
+                    Swal.fire({
+                      title: 'Sesión existente!',
+                      text: 'El archivo se ha cargado como: ' + inputFile.name.replace(".csv","") + "_saved.csv",
+                      icon: 'success',
+                      confirmButtonText: 'Ok'
+                    })
+                }
+            });
+        }
+          
     }
 };
     const handleParse = () => {
-         
-        if (!file)           
-          Swal.fire({
-          title: 'Error!',
-          text: 'No es un archivo CSV válido',
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
- 
-        const reader = new FileReader();
-
-        reader.onload = async ({ target }) => {
-            const csv = Papa.parse(target.result, { header: true });
-            const rawData = csv?.data;
-            setData(rawData);
-            setLinea(rawData[0]['text'])
-        };
-        reader.readAsText(file);
         setEdicion(true);
     };
     const atras=()=>{
@@ -69,7 +106,6 @@ function App() {
       let arr = [...valor];
       arr[index] = idx;
       setValor(arr)
-      console.log("index: ", index, " : valarray ",arr[index], " : in dataval", state.data[valor[index]])
       adelante();
     }
     const guardarCSV=()=>{
@@ -81,9 +117,9 @@ function App() {
       })
       jsons.push({'filename':file.name,'lastIdx':index,'length':count})
       console.log(count)
-      state.data.map((e,idx)=>{
+      state.map((e,idx)=>{
         const columnName = 'field_' + idx;
-        jsons.push({columnName:e.etiqueta})
+        jsons.push({columnName:e})
       })
       data.forEach((elemento,idx) => {
     
@@ -131,11 +167,11 @@ function App() {
           <div>
             <button onClick={atras}>◀️</button>
             Línea: {index + " = " + linea + " - " }
-            <p>{typeof valor[index] === 'undefined'?'':state.data[valor[index]].etiqueta}</p>
+            <p>{typeof valor[index] === 'undefined'?'':state[valor[index]]}</p>
             <button onClick={adelante}>▶️</button>
           </div>{
-            state.data.map((e,idx)=>{
-              return <div className='box-3' onClick={()=> clickButton(idx)}><div className="btn-three" key={idx} ><span>{e.etiqueta}</span></div></div>
+            state.map((e,idx)=>{
+              return <div className='box-3' onClick={()=> clickButton(idx)}><div className="btn-three" key={idx} ><span>{e}</span></div></div>
             })
             
           }
@@ -146,4 +182,4 @@ function App() {
   );
 }
 
-export default App;
+export default CargarSesion;

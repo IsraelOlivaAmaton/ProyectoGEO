@@ -21,5 +21,7 @@ import backend_api.views as vw
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('generarCSV',vw.guardarCSV,name="generarCSV")
+    path('generarCSV',vw.guardarCSV,name="generarCSV"),
+    path('recuperarSesion',vw.recuperarSesion,name="recuperarSesion"),
+    path('cargarAntiguo',vw.cargarAntiguo,name="cargarAntiguo")
 ]

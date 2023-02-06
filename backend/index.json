@@ -1,0 +1,19 @@
+{
+    "documents": [
+        {
+            "filename": "datos_ejemplo (1).csv",
+            "lastIndex": 20,
+            "fields": [
+                {
+                    "field1": "Feliz!"
+                },
+                {
+                    "field2": "Triste!"
+                },
+                {
+                    "field3": "Neutral!"
+                }
+            ]
+        }
+    ]
+}
