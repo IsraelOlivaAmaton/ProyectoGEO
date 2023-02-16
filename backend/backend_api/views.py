@@ -6,12 +6,13 @@ import csv
 
 @csrf_exempt
 def guardarCSV(request):
-    nJson = json.loads(request.body.decode('utf-8',errors='replace').replace('\uFFFD', '?'))
+    nJson = json.loads(request.body.decode('cp1252',errors='replace').replace('\uFFFD', '?'))
     length = len(nJson) - nJson[0]['length']
     filename = nJson[0]['filename'].replace(".csv","")
     counter=0
     jsonfile = ''
     actualid=0
+    
     try:
         file = open("index.json","r+")
         cadena = file.read()
@@ -27,28 +28,26 @@ def guardarCSV(request):
     for line in nJson:
         if counter<length:
             if counter == 0:
-                archivo = open( filename + "_saved.csv","w+")
-                archivo.write("text,valor\n")
+                archivo = csv.writer(open( filename + ".csv","w+")) 
+                archivo.writerow(['text', 'valor', 'etiqueta'])
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
                         actualid = idx
-                        print(actualid)
                         jsonfile['documents'].pop(idx)
                 jsonfile['documents'].append({'filename':line['filename'],'lastIndex':line['lastIdx'],'fields':[]})
-
-                print(jsonfile)
             else:
                 jsonarchivo = open("index.json","w+")
-                print(line['columnName'])
                 jsonfile['documents'][actualid]['fields'].append({'field'+str(counter):line['columnName']})
                 json.dump(jsonfile, jsonarchivo, indent=4)
                 jsonarchivo.close()
         else:
-            archivo.write(str(line['text'].encode('utf-8').decode('utf-8'))+","+ str(line['value'])+"\n")
+            archivo.writerow([str(line['text'].encode('cp1252', 'surrogatepass').decode("cp1252")),str(line['value']),str(line['tag'])])
         counter+=1
-    archivo.close()
 
-    return HttpResponse(nJson)
+    f = open(filename+'.csv', 'r+')
+    response = HttpResponse(f, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="'+filename+'.csv"'
+    return response
 
 @csrf_exempt
 def recuperarSesion(request):
@@ -59,7 +58,6 @@ def recuperarSesion(request):
     jsonfile = json.loads(cadena)
     for idx, obj in enumerate(jsonfile.get('documents')):		
         if obj['filename'] == name:
-            print(obj)
             return HttpResponse(json.dumps(obj))
     return HttpResponse(0)
 

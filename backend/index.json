@@ -1,17 +1,14 @@
 {
     "documents": [
         {
-            "filename": "datos_ejemplo (1).csv",
-            "lastIndex": 20,
+            "filename": "datos-residencia.csv",
+            "lastIndex": 15,
             "fields": [
                 {
-                    "field1": "Feliz!"
+                    "field1": "123123"
                 },
                 {
-                    "field2": "Triste!"
-                },
-                {
-                    "field3": "Neutral!"
+                    "field2": "qweqwe"
                 }
             ]
         }

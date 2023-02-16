@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import Papa from "papaparse";
 import axios from 'axios';
 import { json, useLocation } from 'react-router-dom';
+import download from 'downloadjs';
+
 function App() {
   const [file, setFile] = useState("");
   const [edicion,setEdicion] =useState(false);
@@ -69,7 +71,6 @@ function App() {
       let arr = [...valor];
       arr[index] = idx;
       setValor(arr)
-      console.log("index: ", index, " : valarray ",arr[index], " : in dataval", state.data[valor[index]])
       adelante();
     }
     const guardarCSV=()=>{
@@ -80,17 +81,14 @@ function App() {
         count+=1
       })
       jsons.push({'filename':file.name,'lastIdx':index,'length':count})
-      console.log(count)
       state.data.map((e,idx)=>{
         const columnName = 'field_' + idx;
         jsons.push({columnName:e.etiqueta})
       })
       data.forEach((elemento,idx) => {
-    
-        jsons.push({'text':elemento['text'],'value': typeof valor[idx] === 'undefined'?'':valor[idx]});
-
+        jsons.push({'text': typeof elemento['text'] === 'undefined'?'': elemento['text'],'value': typeof valor[idx] === 'undefined'?'':valor[idx],'tag':typeof valor[idx] === 'undefined'?'': state.data[valor[idx]].etiqueta});
       });
-      const myObjStr = JSON.stringify(jsons);
+
       axios.post('http://127.0.0.1:8000/generarCSV',jsons,{
         headers: {
           'Accept':'application/json',
@@ -98,11 +96,15 @@ function App() {
         },
         xsrfCookieName: 'csrftoken',
         xsrfHeaderName: 'X-CSRFTOKEN',
+        responseType: 'blob'
 
       }).then(function (response) {
+        const content = response.headers['content-type'];
+        download(response.data, file.name, content);
+        console.log(content)
         Swal.fire({
           title: 'Guardado!',
-          text: 'El archivo se ha guardado como: ' + file.name.replace(".csv","") + "_saved.csv",
+          text: 'El archivo ' + file.name.replace(".csv","") + " se ha modificado!",
           icon: 'success',
           confirmButtonText: 'Cool'
         })
