@@ -51,20 +51,13 @@ export default function Menu() {
   return (
     <div className="area">
       <div style={{fontSize:'30px', textAlign: 'center', position: 'absolute', top: '30%', left: '50%', marginLeft:'-150px', zIndex: 2}}>
-        <p>
-          Abrir 
-        </p>        
-        <input
-                onChange={handleFileChange}
-                id="csvInput"
-                name="file"
-                type="File"
-        />
-        <p>
-        un archivo CSV
-        </p>
+        <label className="custom-file-upload">
+          <input type="file" id="csvInput" name="file" onChange={handleFileChange} />
+          <i className="fa fa-cloud-upload" /> Abrir un archivo CSV
+        </label> 
       </div>
-      <button className="button-64" onClick={()=> navigate('/Etiquetas')}>Comenzar</button>
+      {//<button className="button-64" onClick={()=> navigate('/Etiquetas')}>Comenzar</button>
+      }
       <ul className="circles">
         <li></li>
         <li></li>
