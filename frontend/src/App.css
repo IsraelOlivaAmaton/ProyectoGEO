@@ -56,12 +56,15 @@
   display: flex;
   font-family: Phantomsans, sans-serif;
   font-size: 20px;
-  justify-content: center;
   line-height: 1em;
   width: 500px;
   z-index: 10;
   height: 100px;
   padding: 3px;
+  top: 50%;
+  left: 50%;
+  margin-left: -250px;
+  justify-content: center;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
@@ -69,7 +72,7 @@
   white-space: nowrap;
   cursor: pointer;
   margin-top: 20px;
-  position: relative;
+  position: absolute;
 }
 
 .button-64:active,

@@ -1,40 +1,5 @@
 {
     "documents": [
-        {
-            "filename": "datos_ejemplo (1).csv",
-            "lastIndex": 20,
-            "fields": [
-                {
-                    "field1": "Feliz!"
-                },
-                {
-                    "field2": "Triste!"
-                },
-                {
-                    "field3": "Neutral!"
-                },
-                {
-                    "field1": "Feliz"
-                },
-                {
-                    "field2": "Triste"
-                }
-            ]
-        },
-        {
-            "filename": "datos-residencia.csv",
-            "lastIndex": 11,
-            "fields": [
-                {
-                    "field1": "Positivo"
-                },
-                {
-                    "field2": "Negativo"
-                },
-                {
-                    "field3": "Neutro"
-                }
-            ]
-        }
+
     ]
 }

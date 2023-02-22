@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './App.css';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const defaultState = {
   etiqueta: "",
 };
@@ -8,20 +9,22 @@ const defaultState = {
 function Row({ onChange, onRemove, etiqueta}) {
   return (
     <div>
-      <input
+      <input style={{fontSize: 20}}
         value={etiqueta}
         onChange={e => onChange("etiqueta", e.target.value)}
         placeholder="Etiqueta"
       />
 
-      <button className="button-eliminar" onClick={onRemove}>Eliminar etiqueta</button>
+      <button className="button-eliminar" style={{fontSize: 20}} onClick={onRemove}>Eliminar etiqueta</button>
     </div>
   );
 }
 
-export default function App() {
+export default function CrearEtiquetas() {
   const [rows, setRows] = useState([defaultState]);
   const navigate = useNavigate();
+  const { state } = useLocation();
+
   const handleOnChange = (index, name, value) => {
     const copyRows = [...rows];
     copyRows[index] = {
@@ -37,10 +40,12 @@ export default function App() {
   };
 
   const exportData =()=>{
+    console.log(state)
     navigate('/App',
     {
         state: {
-            data: rows
+            data: rows,
+            document: state.document
         }
     });
   }
@@ -53,16 +58,19 @@ export default function App() {
 
   return (
     <div className="App-header">
-      {rows.map((row, index) => (
-        <Row
-          {...row}
-          onChange={(name, value) => handleOnChange(index, name, value)}
-          onRemove={() => handleOnRemove(index)}
-          key={index}
-        />
-      ))}
-      <button className="button-64" onClick={handleOnAdd}>Agregar</button>
-      <button className="button-64" onClick={exportData}>Continuar</button>
+      <div style={{position:'relative', top: -300}}>
+        {rows.map((row, index) => (
+          <Row
+            {...row}
+            onChange={(name, value) => handleOnChange(index, name, value)}
+            onRemove={() => handleOnRemove(index)}
+            key={index}
+          />
+        ))}
+      </div>
+
+      <button className="button-64" style={{top: '70%'}} onClick={handleOnAdd}>Agregar</button>
+      <button className="button-64" style={{top: '85%'}} onClick={exportData}>Continuar</button>
     </div>
   );
 }

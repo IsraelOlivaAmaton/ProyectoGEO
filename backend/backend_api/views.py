@@ -6,8 +6,9 @@ import csv
 
 @csrf_exempt
 def guardarCSV(request):
-    nJson = json.loads(request.body.decode('cp1252',errors='replace').replace('\uFFFD', '?'))
+    nJson = json.loads(request.body.decode('cp1252',errors='replace').replace('\uFFFD', '?').encode('cp1252'))
     length = len(nJson) - nJson[0]['length']
+    print(nJson[0]['filename'], "  O  KKK")
     filename = nJson[0]['filename'].replace(".csv","")
     counter=0
     jsonfile = ''
@@ -28,7 +29,7 @@ def guardarCSV(request):
     for line in nJson:
         if counter<length:
             if counter == 0:
-                archivo = csv.writer(open( filename + ".csv","w+")) 
+                archivo = csv.writer(open( filename + ".csv","w+",newline='')) 
                 archivo.writerow(['text', 'valor', 'etiqueta'])
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
@@ -41,7 +42,7 @@ def guardarCSV(request):
                 json.dump(jsonfile, jsonarchivo, indent=4)
                 jsonarchivo.close()
         else:
-            archivo.writerow([str(line['text'].encode('cp1252', 'surrogatepass').decode("cp1252")),str(line['value']),str(line['tag'])])
+            archivo.writerow([str(line['text'].encode('cp1252', 'surrogatepass').decode('cp1252')),str(line['value']),str(line['tag'])])
         counter+=1
 
     f = open(filename+'.csv', 'r+')
@@ -51,8 +52,11 @@ def guardarCSV(request):
 
 @csrf_exempt
 def recuperarSesion(request):
-    nJson = json.loads(request.body.decode('utf-8',errors='replace').replace('\uFFFD', '?'))
+    print(request)
+    nJson = json.loads(request.body.decode('cp1252',errors='replace').replace('\uFFFD', '?'))
+    print("NJSON! ", nJson)
     name = nJson['filename']
+    print("name: ", name)
     archivo = open("index.json","r+")
     cadena = archivo.read()
     jsonfile = json.loads(cadena)
