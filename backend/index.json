@@ -1,5 +1,19 @@
 {
     "documents": [
-
+        {
+            "filename": "datos-residencia (1).csv",
+            "lastIndex": 12,
+            "fields": [
+                {
+                    "field1": "vvv"
+                },
+                {
+                    "field2": "ccc"
+                },
+                {
+                    "field3": "xxx"
+                }
+            ]
+        }
     ]
 }

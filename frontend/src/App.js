@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import download from 'downloadjs';
 import { useNavigate } from 'react-router-dom';
 
+
 function App() {
   const edicion = true;
   const [data, setData] = useState();
@@ -60,7 +61,7 @@ function App() {
             setValor(tempArray)
           }
       };
-      reader.readAsText(doc);
+      reader.readAsText(doc, "utf-8");
   };
 
   const atras=()=>{
@@ -68,7 +69,7 @@ function App() {
       try{
         setIndex(index => index - 1)
       }catch{
-        alert("error cachondote")
+        
       }
       
       setLinea(data[index-1]['text'])
@@ -112,12 +113,12 @@ function App() {
       xsrfHeaderName: 'X-CSRFTOKEN',
       responseType: 'blob'
 
-    }).then(function (response) {
+    }).then(async function (response) {
       const content = response.headers['content-type'];
-      download(response.data, state.document.name, content);
+      const down = download(response.data, state.document.name, content);
       Swal.fire({
         title: 'Guardado!',
-        text: 'El archivo ' + state.document.name + " se ha modificado!",
+        text: 'El archivo ' + state.document.name + " se ha descargado!",
         icon: 'success',
         confirmButtonText: 'Cool'
       }).then(

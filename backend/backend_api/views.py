@@ -6,7 +6,8 @@ import csv
 
 @csrf_exempt
 def guardarCSV(request):
-    nJson = json.loads(request.body.decode('cp1252',errors='replace').replace('\uFFFD', '?').encode('cp1252'))
+    print(request.encoding)
+    nJson = json.loads(request.body.decode('utf-8',errors='replace').replace('\uFFFD', '?').encode('utf-8'))
     length = len(nJson) - nJson[0]['length']
     print(nJson[0]['filename'], "  O  KKK")
     filename = nJson[0]['filename'].replace(".csv","")
@@ -29,7 +30,7 @@ def guardarCSV(request):
     for line in nJson:
         if counter<length:
             if counter == 0:
-                archivo = csv.writer(open( filename + ".csv","w+",newline='')) 
+                archivo = csv.writer(open( filename + ".csv","w+",newline='', encoding='utf-8')) 
                 archivo.writerow(['text', 'valor', 'etiqueta'])
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
@@ -42,11 +43,11 @@ def guardarCSV(request):
                 json.dump(jsonfile, jsonarchivo, indent=4)
                 jsonarchivo.close()
         else:
-            archivo.writerow([str(line['text'].encode('cp1252', 'surrogatepass').decode('cp1252')),str(line['value']),str(line['tag'])])
+            archivo.writerow([str(line['text'].encode('utf-8', 'surrogatepass').decode('utf-8')),str(line['value']),str(line['tag'])])
         counter+=1
 
-    f = open(filename+'.csv', 'r+')
-    response = HttpResponse(f, content_type='text/csv')
+    f = open(filename+'.csv', 'r+', encoding='utf-8')
+    response = HttpResponse(f, content_type='text/csv;charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="'+filename+'.csv"'
     return response
 

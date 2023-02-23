@@ -3,14 +3,19 @@ import './App.css';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from "axios";
+const languageEncoding = require("detect-file-encoding-and-language");
 
 export default function Menu() {
   const navigate = useNavigate();
   const allowedExtensions = ["csv"];
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     if (e.target.files.length) {
       const inputFile = e.target.files[0];
+      const format = await languageEncoding(inputFile);
+      const encoding = format.encoding;
+
+      console.log("Encoding? ", encoding)
         const fileExtension = inputFile?.type.split("/")[1];
         if (!allowedExtensions.includes(fileExtension)) {
           Swal.fire({

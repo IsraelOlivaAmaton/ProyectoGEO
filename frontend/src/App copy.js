@@ -92,7 +92,7 @@ function App() {
       axios.post('http://127.0.0.1:8000/generarCSV',jsons,{
         headers: {
           'Accept':'application/json',
-          'Content-Type':'application/json',
+          'Content-Type':'application/json; charset=utf-8',
         },
         xsrfCookieName: 'csrftoken',
         xsrfHeaderName: 'X-CSRFTOKEN',
