@@ -52,12 +52,14 @@ function App() {
           const rawData = csv?.data;
           setData(rawData);
           setLinea(rawData[lidx?lidx:0]['text']);
+          console.log("valor?", rawData[0]['valor'])
           if(rawData[0]['valor']){
+            
             const tempArray = []
             rawData.map((e)=>{
               tempArray.push(e.valor === ''?undefined:e.valor)
             })
-            console.log(tempArray)
+            console.log("tempArr? ", tempArray)
             setValor(tempArray)
           }
       };

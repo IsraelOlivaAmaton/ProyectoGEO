@@ -11,10 +11,12 @@ def guardarCSV(request):
     length = len(nJson) - nJson[0]['length']
     print(nJson[0]['filename'], "  O  KKK")
     filename = nJson[0]['filename'].replace(".csv","")
+    lastIndex = nJson[0]['lastIdx']
     counter=0
     jsonfile = ''
-    actualid=0
-    
+    actualid = 0
+    nuevo = True
+    first = True
     try:
         file = open("index.json","r+")
         cadena = file.read()
@@ -35,13 +37,26 @@ def guardarCSV(request):
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
                         actualid = idx
-                        jsonfile['documents'].pop(idx)
-                jsonfile['documents'].append({'filename':line['filename'],'lastIndex':line['lastIdx'],'fields':[]})
+                        print(obj['filename'], " = ", line['filename'], " id? = ",actualid)
+                        #jsonfile['documents'].pop(idx)
+                        jsonfile['documents'][actualid]['lastIndex'] = line['lastIdx']
+                        #.append({'filename':line['filename'],'lastIndex':line['lastIdx'],'fields':[]})
+                        nuevo = False
+
+                        break
+                    else:
+                        actualid+=1
             else:
+                print("now actualid: ", actualid)
                 jsonarchivo = open("index.json","w+")
-                jsonfile['documents'][actualid]['fields'].append({'field'+str(counter):line['columnName']})
+                if(nuevo):
+                    if(first):
+                        jsonfile['documents'].append({'filename':filename+".csv",'lastIndex':lastIndex,'fields':[]})
+                        first = False
+                    jsonfile['documents'][actualid]['fields'].append({'field'+str(counter):line['columnName']})
                 json.dump(jsonfile, jsonarchivo, indent=4)
                 jsonarchivo.close()
+            print("counter? ", counter, " first? ", first)
         else:
             archivo.writerow([str(line['text'].encode('utf-8', 'surrogatepass').decode('utf-8')),str(line['value']),str(line['tag'])])
         counter+=1
