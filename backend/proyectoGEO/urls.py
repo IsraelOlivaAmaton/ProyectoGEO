@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import backend_api.views as vw
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('generarCSV',vw.guardarCSV,name="generarCSV"),
     path('recuperarSesion',vw.recuperarSesion,name="recuperarSesion"),
-    path('cargarAntiguo',vw.cargarAntiguo,name="cargarAntiguo")
-]
+    path('cargarAntiguo',vw.cargarAntiguo,name="cargarAntiguo"),
+    path('descargar/', vw.descargar_archivo, name = "descargar"),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -15,6 +15,8 @@ function App() {
   const [valor, setValor] = useState([]);
   const [index, setIndex] = useState(0);
   const [buttons, setButtons] = useState([]);
+  const [readyToDownload, setReadytoDownload] = useState(false);
+  const [externalUrl, setExternalUrl] = useState();
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -26,21 +28,22 @@ function App() {
     handleParse(state.document, state.response?.lastIndex);
     if(state.response){
 
-      const tempArray = []
-      for(var propName in state.response.fields) {
+      const tempArray = ["Pos", "Neu", "Neg"]
+      /*for(var propName in state.response.fields) {
         if(state.response.fields.hasOwnProperty(propName)) {
             var propValue = state.response.fields[propName];
             tempArray.push(Object.values(propValue)[0])
         }
-      }
+      }*/
       setButtons(tempArray);
       setIndex(state.response.lastIndex)
 
     }else{ 
-      const tempArray = [];
+      /*const tempArray = [];
       state.data.map((e,idx)=>{
         tempArray.push(e.etiqueta);
-      });
+      });*/
+      const tempArray = ["Pos", "Neu", "Neg"]
       setButtons(tempArray);
     }
   }
@@ -54,13 +57,19 @@ function App() {
           setLinea(rawData[lidx?lidx:0]['text']);
           console.log("valor?", rawData[0]['valor'])
           if(rawData[0]['valor']){
-            
+            let contador = 0
             const tempArray = []
-            rawData.map((e)=>{
-              tempArray.push(e.valor === ''?undefined:e.valor)
+            rawData.map((e, idx)=>{
+              tempArray.push(e.valor === ''?undefined:e.valor);
+              console.log(idx, " ", e.valor)
+              if(e.valor !== '' && e.valor !== undefined){
+                contador = idx
+              }
             })
+            setLinea(rawData[contador]['text']);
             console.log("tempArr? ", tempArray)
             setValor(tempArray)
+            setIndex(contador)
           }
       };
       reader.readAsText(doc, "utf-8");
@@ -113,18 +122,20 @@ function App() {
       },
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFTOKEN',
-      responseType: 'blob'
 
     }).then(async function (response) {
-      const content = response.headers['content-type'];
-      const down = download(response.data, state.document.name, content);
+      //const content = response.headers['content-type'];
+      //const down = download(response.data, state.document.name, content);
+      setExternalUrl(response.data);
+      console.log(response.data);
+      setReadytoDownload(true);
       Swal.fire({
         title: 'Guardado!',
-        text: 'El archivo ' + state.document.name + " se ha descargado!",
+        text: 'El archivo ' + state.document.name + " está listo para descargarse!",
         icon: 'success',
         confirmButtonText: 'Cool'
       }).then(
-        navigate('/')
+        //navigate('/')
       );
     });
   }
@@ -147,6 +158,14 @@ function App() {
           }
           <p><div className='fifth' onClick={guardarCSV}>Finalizar</div></p>
         </div>:<></>}
+        {
+          readyToDownload?
+          <div>
+            <a download href={externalUrl} onclick="document.execCommand('SaveAs',true,'file.html');"> Haga clic derecho para descargar como</a>
+            <div className="button-64" style={{top: 700}}onClick={()=>navigate('/')}>Salir</div>
+          </div>
+          :<div></div>
+        }
       </header>
     </div>
   );

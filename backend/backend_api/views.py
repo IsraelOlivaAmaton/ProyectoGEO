@@ -1,8 +1,20 @@
+from typing import Self
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import csv
+import mimetypes
+import os
+from django.contrib.staticfiles.storage import staticfiles_storage
+
+
+
+
+@csrf_exempt
+def descargar_archivo(request): 
+    filename = (os.path.abspath(os.getcwd()) + '/static/datos-residencia.csv')
+    return HttpResponse(filename)
 
 @csrf_exempt
 def guardarCSV(request):
@@ -32,7 +44,8 @@ def guardarCSV(request):
     for line in nJson:
         if counter<length:
             if counter == 0:
-                archivo = csv.writer(open( filename + ".csv","w+",newline='', encoding='utf-8')) 
+                completeName = os.path.join(os.path.abspath(os.getcwd()) + "/proyectoGEO/", filename+".csv")
+                archivo = csv.writer(open('./static/' + filename + ".csv","w+",newline='', encoding='utf-8')) 
                 archivo.writerow(['text', 'valor', 'etiqueta'])
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
@@ -61,10 +74,11 @@ def guardarCSV(request):
             archivo.writerow([str(line['text'].encode('utf-8', 'surrogatepass').decode('utf-8')),str(line['value']),str(line['tag'])])
         counter+=1
 
-    f = open(filename+'.csv', 'r+', encoding='utf-8')
-    response = HttpResponse(f, content_type='text/csv;charset=utf-8')
-    response['Content-Disposition'] = 'attachment; filename="'+filename+'.csv"'
-    return response
+    #f = open(./static/' +filename+'.csv', 'r+', encoding='utf-8')
+    #response = HttpResponse(f, content_type='text/csv;charset=utf-8')
+    #response['Content-Disposition'] = 'attachment; filename="'+filename+'.csv"'
+    downloadUrl = "http://localhost:8000/static/" + filename + ".csv"
+    return HttpResponse(downloadUrl)
 
 @csrf_exempt
 def recuperarSesion(request):

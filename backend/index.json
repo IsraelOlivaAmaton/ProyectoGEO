@@ -2,49 +2,31 @@
     "documents": [
         {
             "filename": "datos-residencia (1).csv",
-            "lastIndex": 61,
+            "lastIndex": 18,
             "fields": [
                 {
-                    "field1": "111"
+                    "field1": "Pos"
                 },
                 {
-                    "field2": "222"
+                    "field2": "Neu"
                 },
                 {
-                    "field3": "333"
+                    "field3": "Neg"
                 }
             ]
         },
         {
-            "filename": "datos-residencia (1) (1).csv",
-            "lastIndex": 81,
+            "filename": "datos-residencia.csv",
+            "lastIndex": 16,
             "fields": [
                 {
-                    "field1": "xxx"
+                    "field1": "Pos"
                 },
                 {
-                    "field2": "zzz"
+                    "field2": "Neu"
                 },
                 {
-                    "field3": "ccc"
-                }
-            ]
-        },
-        {
-            "filename": "datos-residencia (1) (1) (1).csv",
-            "lastIndex": 110,
-            "fields": [
-                {
-                    "field1": "ooo"
-                },
-                {
-                    "field2": "ppp"
-                },
-                {
-                    "field3": "mmm"
-                },
-                {
-                    "field4": "nnn"
+                    "field3": "Neg"
                 }
             ]
         }
