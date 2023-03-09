@@ -37,7 +37,7 @@ export default function Menu() {
             }).then(function (response) {
               console.log(response);
               if(response.data === 0){
-                navigate('/App', {state: {document: inputFile}});
+                navigate('/Etiquetas', {state: {document: inputFile}});
               }else{
                   Swal.fire({
                     title: 'Sesión existente!',

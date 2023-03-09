@@ -114,8 +114,23 @@ margin: 0 10px;
     min-width: 196px;
   }
 }
-.box-3 { background-color: #66A182; width: 100vw;}
+.box-3 { background-color: #66A182; width: 50%; align-items: center; 
+  text-align: center;
+  display: flex;
+  align-content: center;
+  position: relative;
+  flex-wrap: wrap;
+  left:25%;
+  margin-bottom: 5px;
+}
+.text-max-width{
+  max-width: 1000px;
+  width: 1000px;
+  height: 180px;
+  top: 5%;
+}
 .btn-three {
+  width: 100%;
   padding: 8px;
   margin: 8px;
   color: #FFF;
@@ -161,6 +176,9 @@ margin: 0 10px;
   position: relative;
   overflow: hidden;
   z-index: 1;
+  width: 50%;
+  left: 0%;
+  align-items: center;
   -webkit-transition: color 150ms ease-in-out;
   transition: color 150ms ease-in-out;
 }

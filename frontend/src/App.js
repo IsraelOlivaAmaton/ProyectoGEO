@@ -19,7 +19,7 @@ function App() {
   const [externalUrl, setExternalUrl] = useState();
   const { state } = useLocation();
   const navigate = useNavigate();
-
+  const [textoBoton, setTextoBoton] = useState("Generar documento")
   useEffect(()=>{
     loadState();
   }, [setData]);
@@ -28,22 +28,22 @@ function App() {
     handleParse(state.document, state.response?.lastIndex);
     if(state.response){
 
-      const tempArray = ["Pos", "Neu", "Neg"]
-      /*for(var propName in state.response.fields) {
+      const tempArray = []
+      for(var propName in state.response.fields) {
         if(state.response.fields.hasOwnProperty(propName)) {
             var propValue = state.response.fields[propName];
             tempArray.push(Object.values(propValue)[0])
         }
-      }*/
+      }
       setButtons(tempArray);
-      setIndex(state.response.lastIndex)
+      //setIndex(state.response.lastIndex)
 
     }else{ 
-      /*const tempArray = [];
+      const tempArray = ["Pos", "Neu", "Neg"]
       state.data.map((e,idx)=>{
         tempArray.push(e.etiqueta);
-      });*/
-      const tempArray = ["Pos", "Neu", "Neg"]
+      });
+      
       setButtons(tempArray);
     }
   }
@@ -55,21 +55,21 @@ function App() {
           const rawData = csv?.data;
           setData(rawData);
           setLinea(rawData[lidx?lidx:0]['text']);
-          console.log("valor?", rawData[0]['valor'])
-          if(rawData[0]['valor']){
+          console.log("valor?", rawData[0]['etiqueta'])
+          if(rawData[0]['etiqueta']){
             let contador = 0
             const tempArray = []
             rawData.map((e, idx)=>{
-              tempArray.push(e.valor === ''?undefined:e.valor);
-              console.log(idx, " ", e.valor)
-              if(e.valor !== '' && e.valor !== undefined){
+              tempArray.push(e.etiqueta === ''?undefined:e.etiqueta);
+              console.log(idx, " ", e.etiqueta)
+              if(e.etiqueta !== '' && e.etiqueta !== undefined){
                 contador = idx
               }
             })
             setLinea(rawData[contador]['text']);
             console.log("tempArr? ", tempArray)
             setValor(tempArray)
-            setIndex(contador)
+            setIndex(contador+1)
           }
       };
       reader.readAsText(doc, "utf-8");
@@ -95,7 +95,7 @@ function App() {
 
   const clickButton =(idx)=>{
     let arr = [...valor];
-    arr[index] = idx;
+    arr[index] = buttons[idx];
     setValor(arr)
     adelante();
   }
@@ -112,7 +112,7 @@ function App() {
       jsons.push({columnName:e})
     })
     data.forEach((elemento,idx) => {
-      jsons.push({'text': typeof elemento['text'] === 'undefined'?'': elemento['text'],'value': typeof valor[idx] === 'undefined'?'':valor[idx],'tag':typeof valor[idx] === 'undefined'?'': buttons[valor[idx]]});
+      jsons.push({'text': typeof elemento['text'] === 'undefined'?'': elemento['text'],'value': typeof valor[idx] === 'undefined'?'':valor[idx],'tag':typeof valor[idx] === 'undefined'?'': valor[idx]});
     });
 
     axios.post('http://127.0.0.1:8000/generarCSV',jsons,{
@@ -129,14 +129,14 @@ function App() {
       setExternalUrl(response.data);
       console.log(response.data);
       setReadytoDownload(true);
-      Swal.fire({
+      /*Swal.fire({
         title: 'Guardado!',
         text: 'El archivo ' + state.document.name + " está listo para descargarse!",
         icon: 'success',
         confirmButtonText: 'Cool'
       }).then(
         //navigate('/')
-      );
+      );*/
     });
   }
 
@@ -144,27 +144,32 @@ function App() {
     <div className="App" >
       <header className="App-header">
         {edicion?<div>
+          <div className="text-max-width">
+            
+            Línea: {index + " = " + linea + " - " }
+            <p>{typeof valor[index] === 'undefined'?'':valor[index]}</p>
+            
+          </div>
           <div>
             <button onClick={atras}>◀️</button>
-            Línea: {index + " = " + linea + " - " }
-            <p>{typeof valor[index] === 'undefined'?'':buttons[valor[index]]}</p>
             <button onClick={adelante}>▶️</button>
-          </div>{
+          </div>
+          {
             buttons?.map((e,idx)=>{
 
               return <div className='box-3' onClick={()=> clickButton(idx)}><div className="btn-three" key={idx} ><span>{e}</span></div></div>
             })
             
           }
-          <p><div className='fifth' onClick={guardarCSV}>Finalizar</div></p>
+          
         </div>:<></>}
         {
           readyToDownload?
           <div>
             <a download href={externalUrl} onclick="document.execCommand('SaveAs',true,'file.html');"> Haga clic derecho para descargar como</a>
-            <div className="button-64" style={{top: 700}}onClick={()=>navigate('/')}>Salir</div>
+            <div className="button-64" style={{top: 800}}onClick={()=>navigate('/')}>Salir</div>
           </div>
-          :<div></div>
+          :<p><div className='fifth' style={{width: '100%'}} onClick={guardarCSV}>{textoBoton}</div></p>
         }
       </header>
     </div>

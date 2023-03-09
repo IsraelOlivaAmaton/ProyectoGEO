@@ -46,7 +46,7 @@ def guardarCSV(request):
             if counter == 0:
                 completeName = os.path.join(os.path.abspath(os.getcwd()) + "/proyectoGEO/", filename+".csv")
                 archivo = csv.writer(open('./static/' + filename + ".csv","w+",newline='', encoding='utf-8')) 
-                archivo.writerow(['text', 'valor', 'etiqueta'])
+                archivo.writerow(['text', 'etiqueta'])
                 for idx, obj in enumerate(jsonfile.get('documents')):		
                     if obj['filename'] == line['filename']:
                         actualid = idx
@@ -71,7 +71,7 @@ def guardarCSV(request):
                 jsonarchivo.close()
             print("counter? ", counter, " first? ", first)
         else:
-            archivo.writerow([str(line['text'].encode('utf-8', 'surrogatepass').decode('utf-8')),str(line['value']),str(line['tag'])])
+            archivo.writerow([str(line['text'].encode('utf-8', 'surrogatepass').decode('utf-8')),str(line['tag'])])
         counter+=1
 
     #f = open(./static/' +filename+'.csv', 'r+', encoding='utf-8')

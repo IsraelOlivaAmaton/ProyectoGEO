@@ -2,7 +2,7 @@
     "documents": [
         {
             "filename": "datos-residencia (1).csv",
-            "lastIndex": 18,
+            "lastIndex": 20,
             "fields": [
                 {
                     "field1": "Pos"
@@ -12,21 +12,9 @@
                 },
                 {
                     "field3": "Neg"
-                }
-            ]
-        },
-        {
-            "filename": "datos-residencia.csv",
-            "lastIndex": 16,
-            "fields": [
-                {
-                    "field1": "Pos"
                 },
                 {
-                    "field2": "Neu"
-                },
-                {
-                    "field3": "Neg"
+                    "field4": "888"
                 }
             ]
         }
