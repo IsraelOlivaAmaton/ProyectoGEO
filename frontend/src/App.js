@@ -54,10 +54,11 @@ function App() {
           const csv = Papa.parse(target.result, { header: true });
           const rawData = csv?.data;
           setData(rawData);
-          setLinea(rawData[lidx?lidx:0]['text']);
-          console.log("valor?", rawData[0]['etiqueta'])
+          
+          console.log("valor?", rawData[0]['etiqueta']);
+          let contador = 0
           if(rawData[0]['etiqueta']){
-            let contador = 0
+            
             const tempArray = []
             rawData.map((e, idx)=>{
               tempArray.push(e.etiqueta === ''?undefined:e.etiqueta);
@@ -70,6 +71,8 @@ function App() {
             console.log("tempArr? ", tempArray)
             setValor(tempArray)
             setIndex(contador+1)
+          }else{
+            setLinea(rawData[contador]['text']);
           }
       };
       reader.readAsText(doc, "utf-8");
