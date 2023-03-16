@@ -17,6 +17,39 @@
                     "field4": "888"
                 }
             ]
+        },
+        {
+            "filename": "datos-residencia (3).csv",
+            "lastIndex": 9,
+            "fields": [
+                {
+                    "field1": "qqq"
+                },
+                {
+                    "field2": "ooo"
+                },
+                {
+                    "field3": "ppp"
+                }
+            ]
+        },
+        {
+            "filename": "datos-residencia.csv",
+            "lastIndex": 9,
+            "fields": [
+                {
+                    "field1": "123"
+                },
+                {
+                    "field2": "qwe"
+                },
+                {
+                    "field3": "vvv"
+                },
+                {
+                    "field4": "xxx"
+                }
+            ]
         }
     ]
 }

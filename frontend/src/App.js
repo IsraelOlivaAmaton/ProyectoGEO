@@ -17,6 +17,7 @@ function App() {
   const [buttons, setButtons] = useState([]);
   const [readyToDownload, setReadytoDownload] = useState(false);
   const [externalUrl, setExternalUrl] = useState();
+  const [nuevaEtiqueta, setNuevaEtiqueta] = useState();
   const { state } = useLocation();
   const navigate = useNavigate();
   const [textoBoton, setTextoBoton] = useState("Generar documento")
@@ -39,7 +40,7 @@ function App() {
       //setIndex(state.response.lastIndex)
 
     }else{ 
-      const tempArray = ["Pos", "Neu", "Neg"]
+      const tempArray = []
       state.data.map((e,idx)=>{
         tempArray.push(e.etiqueta);
       });
@@ -143,6 +144,13 @@ function App() {
     });
   }
 
+  const agregarNuevaEtiqueta = ()=>{
+    if(nuevaEtiqueta !== undefined || nuevaEtiqueta !== ""){
+      buttons.push(nuevaEtiqueta);
+      setNuevaEtiqueta(undefined);
+    }
+
+  }
   return (
     <div className="App" >
       <header className="App-header">
@@ -156,6 +164,11 @@ function App() {
           <div>
             <button onClick={atras}>◀️</button>
             <button onClick={adelante}>▶️</button>
+          </div>
+          <div>
+            <input value={nuevaEtiqueta} onChange={e => setNuevaEtiqueta(e.target.value)}
+        placeholder="Etiqueta" type="text"></input>
+            <button onClick={()=>agregarNuevaEtiqueta()}>▶Agregar etiqueta</button>
           </div>
           {
             buttons?.map((e,idx)=>{
